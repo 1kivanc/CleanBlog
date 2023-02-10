@@ -26,6 +26,15 @@ const blog = {
   title: 'Blog title',
   description: 'Blog description',
 };
+
+app.get('/blogs/:id', async(req,res) => {
+   //console.log(req.params.id);
+   const blog = await Blog.findById(req.params.id)
+   res.render('post',{
+    blog
+   })
+});
+
 app.get('/', async (req, res) => {
   const blogs = await Blog.find({})
   res.render('index',{
