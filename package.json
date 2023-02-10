@@ -22,7 +22,8 @@
   },
   "homepage": "https://github.com/1kivanc/CleanBlog#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^6.9.1"
   },
   "devDependencies": {
     "ejs": "^3.1.8",
