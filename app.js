@@ -3,9 +3,10 @@ const Schema = mongoose.Schema;
 const Blog = require('./models/blog');
 const express = require('express');
 const ejs = require('ejs');
+const methodOverride = require('method-override');
 const path = require('path');
 const app = express();
-
+const fs = require('fs');
 
 
 // Connect DB
@@ -20,6 +21,11 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({extended : true}))
 app.use(express.json())
+app.use(
+  methodOverride('_method',{
+    methods: ['POST','GET'],
+  })
+);
 const port = 3000;
 const blog = {
   id: 1,
@@ -58,6 +64,11 @@ app.post('/blogs', async (req,res) => {
   await Blog.create(req.body);
   res.redirect('/');
 });
+
+app.delete('/blogs/:id', async(req,res) => {
+  await Blog.findByIdAndRemove(req.params.id);
+  res.redirect('/');
+})
 
 app.listen(port, () => {
   console.log(`Sunucu ${port} portunda başlatıldı`);
