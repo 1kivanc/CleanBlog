@@ -7,6 +7,8 @@ const methodOverride = require('method-override');
 const path = require('path');
 const app = express();
 const fs = require('fs');
+const BlogController = require('./controllers/blogController');
+const PageController = require('./controllers/pageController');
 
 
 // Connect DB
@@ -33,57 +35,21 @@ const blog = {
   description: 'Blog description',
 };
 
-app.get('/blogs/:id', async(req,res) => {
-   //console.log(req.params.id);
-   const blog = await Blog.findById(req.params.id)
-   res.render('post',{
-    blog
-   })
-});
+app.get('/blogs/:id', BlogController.getBlog);
 
-app.get('/', async (req, res) => {
-  const blogs = await Blog.find({})
-  res.render('index',{
-    blogs
-  });
-});
+app.get('/', BlogController.getAllBlogs);
 
-app.get('/about', (req, res) => {
-  res.render('about');
-});
+app.get('/about', PageController.getAboutPage);
 
-app.get('/add_post',(req,res) => {
-    res.render('add_post')
-});
+app.get('/add_post', PageController.getAddPage);
 
-app.get('/post',(req,res) => {
-    res.render('post')
-});
+app.get('/post',PageController.getPostPage);
 
-app.post('/blogs', async (req,res) => {
-  await Blog.create(req.body);
-  res.redirect('/');
-});
+app.post('/blogs', BlogController.createBlog);
 
-app.get('/blogs/edit/:id', async(req,res) => {
-  const blog = await Blog.findOne({ _id: req.params.id});
-  res.render('edit',{
-    blog,
-  });
-
-})
-app.put('/blogs/:id',async(req,res) => {
-  const blog = await Blog.findOne({_id: req.params.id});
-  blog.title = req.body.title;
-  blog.description = req.body.description;
-  blog.save();
-
-  res.redirect(`/blogs/${req.params.id}`);
-})
-app.delete('/blogs/:id', async(req,res) => {
-  await Blog.findByIdAndRemove(req.params.id);
-  res.redirect('/');
-})
+app.get('/blogs/edit/:id', PageController.getEditPage);
+app.put('/blogs/:id',BlogController.updateBlog)
+app.delete('/blogs/:id', BlogController.deleteBlog)
 
 app.listen(port, () => {
   console.log(`Sunucu ${port} portunda başlatıldı`);
