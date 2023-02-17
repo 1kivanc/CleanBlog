@@ -65,6 +65,21 @@ app.post('/blogs', async (req,res) => {
   res.redirect('/');
 });
 
+app.get('/blogs/edit/:id', async(req,res) => {
+  const blog = await Blog.findOne({ _id: req.params.id});
+  res.render('edit',{
+    blog,
+  });
+
+})
+app.put('/blogs/:id',async(req,res) => {
+  const blog = await Blog.findOne({_id: req.params.id});
+  blog.title = req.body.title;
+  blog.description = req.body.description;
+  blog.save();
+
+  res.redirect(`/blogs/${req.params.id}`);
+})
 app.delete('/blogs/:id', async(req,res) => {
   await Blog.findByIdAndRemove(req.params.id);
   res.redirect('/');
