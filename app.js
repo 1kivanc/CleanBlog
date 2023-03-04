@@ -11,13 +11,13 @@ const fs = require('fs');
 const BlogController = require('./controllers/blogController');
 const PageController = require('./controllers/pageController');
 
-const password = process.env.Password;
+
 
 
 // Connect DB
 mongoose.set('strictQuery', false);
 mongoose.set('strictQuery', true);
-mongoose.connect(`mongodb+srv://kivanc:${password}@cluster0.alvmofa.mongodb.net/?retryWrites=true&w=majority`);
+mongoose.connect('mongodb+srv://kivanc:JXLV5HhHCv9JIPoW@cluster0.alvmofa.mongodb.net/?retryWrites=true&w=majority');
 
 //TEMPLATE ENGINE
 app.set('view engine', 'ejs');
