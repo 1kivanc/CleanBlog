@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+require('dotenv').config();
 const Blog = require('./models/blog');
 const express = require('express');
 const ejs = require('ejs');
@@ -10,11 +11,13 @@ const fs = require('fs');
 const BlogController = require('./controllers/blogController');
 const PageController = require('./controllers/pageController');
 
+const password = process.env.Password;
+
 
 // Connect DB
 mongoose.set('strictQuery', false);
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb://127.0.0.1:27017/cleanblog-test-db');
+mongoose.connect(`mongodb+srv://kivanc:${password}@cluster0.alvmofa.mongodb.net/?retryWrites=true&w=majority`);
 
 //TEMPLATE ENGINE
 app.set('view engine', 'ejs');
@@ -28,7 +31,7 @@ app.use(
     methods: ['POST','GET'],
   })
 );
-const port = 3000;
+const port = process.env.PORT ||  3000;
 const blog = {
   id: 1,
   title: 'Blog title',
